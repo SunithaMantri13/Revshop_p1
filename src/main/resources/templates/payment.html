@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom styles */
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .payment-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 90%;
+            max-width: 400px;
+        }
+
+/*         .payment-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        } */
+
+            .payment-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            animation: slideIn 0.5s ease;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Make Payment of ₹<span th:text="${orderAmount}"></span></h2>
+        <form id="razorpay-form">
+            <button type="button" id="pay-button" class="btn">Pay ₹<span th:text="${orderAmount}"></span></button>
+        </form>
+    </div>
+
+    <script>
+        var options = {
+            "key": "rzp_test_0D5sE2a7VoD1n7",
+            "amount": [[${orderAmount * 100}]], // Amount in paise
+            "currency": "INR",
+            "name": "Your Website Name",
+            "description": "Test Transaction",
+            "handler": function (response) {
+                console.log(response);
+                fetch('finalize-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // body: JSON.stringify({
+                    //     razorpay_payment_id: response.razorpay_payment_id,
+                    //     razorpay_order_id: response.razorpay_order_id,
+                    //     razorpay_signature: response.razorpay_signature
+                    // })
+
+                 body: JSON.stringify({
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature
+                    })
+                }).then(function () {
+                    window.location.href = "thankyou";
+                }).catch(function (error) {
+                    console.error('Error processing payment:', error);
+                });
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        // var rzp1 = new Razorpay(options);
+        // document.getElementById('pay-button').onclick = function (e) {
+        //     rzp1.open();
+        //     e.preventDefault();
+        // };
+
+
+                var rzp1 = new Razorpay(options);
+        document.getElementById('pay-button').onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product - RevShop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- External CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(to right, #f0f4f8, #e9ecef);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h1 {
+            margin-top: 20px;
+            text-align: center;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeInDown 1s;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            animation: zoomIn 1s;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            border-radius: 8px;
+            border: 2px solid #007bff; /* Blue border */
+            background-color: #f9f9f9;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+
+        /* Effect on hover */
+        .form-group input:hover, 
+        .form-group textarea:hover, 
+        .form-group select:hover {
+            border-color: #28a745; /* Green border */
+            background-color: #e9ecef;
+            transform: scale(1.02);
+        }
+
+        /* Effect on focus */
+        .form-group input:focus, 
+        .form-group textarea:focus, 
+        .form-group select:focus {
+            background-color: #ffffff;
+            border-color: #28a745; /* Green border */
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.5); /* Green shadow */
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div th:include="@{/sellerNav.html}"></div>
+
+    <h1 class="animate__animated animate__fadeInDown">Add New Product</h1>
+
+    <div class="container">
+        <form th:action="@{/api/v1/add}" th:object="${Product}" method="post" id="addProductForm">
+            <div class="form-group">
+                <label for="name">Product Name:</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control" maxlength="150" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" th:field="*{gender}" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" th:field="*{description}" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="imageUrl">Image URL:</label>
+                <input type="url" id="imageUrl" th:field="*{imageUrl}" class="form-control" maxlength="255" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categoryId">Category:</label>
+                <select id="categoryId" th:field="*{category.categoryId}" class="form-control" required>
+                    <option value="0">Select a category</option>
+                    <option th:each="category : ${categories}" 
+                            th:value="${category.categoryId}" 
+                            th:text="${category.categoryName}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sizes">Size:</label>
+                <select id="sizes" name="size" class="form-control" required>
+                    <option value="">Select a size</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" th:field="*{price}" step="0.01" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="discountPrice">Discount Price:</label>
+                <input type="number" id="discountPrice" th:field="*{discountPrice}" step="0.01" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="quantityAvailable">Quantity Available:</label>
+                <input type="number" id="quantityAvailable" th:field="*{quantityAvailable}" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="thresholdQuantity">Threshold Quantity:</label>
+                <input type="number" id="thresholdQuantity" th:field="*{thresholdQuantity}" value="0" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-submit" onclick="showSuccessPopup(event)">Add Product</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('categoryId').addEventListener('change', function() {
+            var categoryId = this.value;
+
+            if (categoryId) {
+                fetch('/api/v1/sizes?categoryId=' + categoryId)
+                    .then(response => response.json())
+                    .then(data => updateSizesDropdown(data))
+                    .catch(error => console.error('Error fetching sizes:', error));
+            } else {
+                updateSizesDropdown([]);
+            }
+        });
+
+        function updateSizesDropdown(sizes) {
+            let sizesDropdown = document.getElementById('sizes');
+            sizesDropdown.innerHTML = '<option value="">Select a size</option>';
+            sizes.forEach(size => {
+                sizesDropdown.innerHTML += `<option value="${size.sizeId}">${size.sizeName}</option>`;
+            });
+        }
+
+        function showSuccessPopup(event) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'success',
+                title: 'Product Added!',
+                text: 'Your product was added successfully.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                document.getElementById('addProductForm').submit();
+            });
+        }
+    </script>
+</body>
+</html>

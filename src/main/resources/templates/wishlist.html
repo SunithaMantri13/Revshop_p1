@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wishlist</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* CSS styling (same as your initial code) */
+    </style>
+</head>
+<body>
+    <div th:include="@{/buyerNav.html}"></div>
+    <div class="container my-5">
+        <div th:if="${!products.isEmpty()}">
+            <h2 class="text-center mt-4">Products in Wishlist</h2>
+            <div class="wishlist-table">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Your Wishlist</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="product : ${products}" th:data-product-id="${product.productId}">
+                                    <td th:text="${product.productId}"></td>
+                                    <td th:text="${product.name}"></td>
+                                    <td>
+                                        <button class="btn btn-danger remove-btn"
+                                            onclick="confirmRemove(this)" th:data-product-id="${product.productId}">
+                                            Remove from Wishlist
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:unless="${!products.isEmpty()}">
+            <div class="container empty-wishlist">
+                <h1>Your Wishlist is Empty</h1>
+                <i class="bi bi-cart-fill empty-wishlist-icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmRemove(button) {
+            const productId = button.getAttribute("data-product-id");
+            if (confirm("Are you sure you want to remove this item from your wishlist?")) {
+                remove(productId, button);
+            }
+        }
+
+        function remove(productId, button) {
+            fetch(`http://localhost:8078/api/v1/wishlist?productId=${productId}`, {
+                method: "DELETE"
+            })
+            .then(res => {
+                if (res.ok) {
+                    const row = button.closest("tr"); // Find the closest table row to the button
+                    row.remove(); // Remove the row from the table
+
+                    // Check if the table is empty after removal
+                    const tableBody = document.querySelector(".wishlist-table tbody");
+                    if (!tableBody.children.length) {
+                        document.querySelector(".wishlist-table").style.display = "none";
+                        document.querySelector(".empty-wishlist").style.display = "block";
+                    }
+                } else {
+                    alert(" Please refresh the page to remove from the wishlist.");
+                }
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                alert("An error occurred. Please try again.");
+            });
+        }
+    </script>
+</body>
+</html>

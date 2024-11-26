@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .edit-profile-container {
+            background-color: #f4f4f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin: 20px auto;
+        }
+
+        .edit-profile-form label {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .edit-profile-form input, .edit-profile-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .save-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .cancel-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+<div th:include="@{/sellerNav.html}"></div>
+<div class="edit-profile-container">
+    <h1>Edit Your Profile</h1>
+    <form class="edit-profile-form" th:action="@{/api/v1/profile/edit}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{userId}" />
+    
+    <label for="username">Username</label>
+    <input type="text" id="username" th:field="*{userName}" required />
+    
+    <label for="mobile">Mobile Number</label>
+    <input type="text" id="mobile" th:field="*{userMobileNumber}" required />
+    
+    <label for="password">Password</label>
+    <!-- Password field, populated with user's password from model -->
+    <input type="text" id="password" th:field="*{userPassword}" th:value="${userPassword}" required />
+    
+    <label for="address">Address</label>
+    <textarea id="address" th:field="*{userAddress}" required></textarea>
+
+    <div>
+        <button type="submit" class="save-btn">Save Changes</button>
+        <a href="/api/v1/profile" class="cancel-btn">Cancel</a>
+    </div>
+</form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Home Page</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<!--  <style>
+    .btn-login, .btn-register {
+        display: inline-block;
+        padding: 5px 12px;
+        font-size: 12px;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 8px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Login Button */
+    .btn-login {
+        color: white;
+        background-color: #007bff;
+        border: none;
+    }
+    
+    .btn-login:hover {
+        background-color: #0056b3; /* Darker blue */
+        color: white;
+    }
+
+    /* Register Button */
+    .btn-register {
+        color: white;
+        background-color: #007bff;
+       border: none; 
+       text-color:white;
+       
+       
+    }
+.btn-register:hover {
+        background-color: #0056b3; /* Darker blue */
+        color: white;
+    }
+    
+</style> -->
+<!-- <script>
+    // Hover effect for Login button
+    document.querySelector('.btn-login').addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#0056b3';
+        this.style.transform = 'scale(1.05)';
+    });
+    document.querySelector('.btn-login').addEventListener('mouseout', function() {
+        this.style.backgroundColor = '#007bff';
+        this.style.transform = 'scale(1)';
+    });
+
+    // Hover effect for Register button
+    document.querySelector('.btn-register').addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#007bff';
+        this.style.color = 'white';
+        this.style.transform = 'scale(1.05)';
+    });
+    document.querySelector('.btn-register').addEventListener('mouseout', function() {
+        this.style.backgroundColor = 'transparent';
+        this.style.color = '#007bff';
+        this.style.transform = 'scale(1)';
+    });
+</script> -->
+</head>
+<body>
+    <div class="banner-section-bg-container">
+        <nav class="nav">
+            <div class="nav-logo">
+                <p>RevShop</p>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                 <ul class="menu-items">
+               <li><a href="#" class="link active">Home</a></li>
+                    <li><a href="#about-us" class="link">About Us</a></li>
+                    <li><a href="#shop" class="link">Shop</a></li>
+                    <li><a href="#contact" class="link">Contact Us</a></li>
+			       
+			     
+			    </li>
+            </ul>
+            
+            </div>
+            
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
+         <div class="container">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 class="banner-heading">Welcome to RevShop</h1>
+            <p class="banner-caption">Buy Smart & Good Products</p>
+            <div>
+<a class="btn-login" href="/api/v1/login" 
+   style="display: inline-block; padding: 15px 30px; font-size: 14px; margin-right: 6px; color: white; background-color: #007bff; text-decoration: none; border-radius: 3px; transition: background-color 0.3s, transform 0.2s;">
+   Login
+</a>
+
+<a class="btn-register" href="/api/v1/register" 
+   style="display: inline-block; padding: 15px 30px; font-size: 14px; color: white; border: 1px solid #007bff; text-decoration: none; border-radius: 3px; transition: background-color 0.3s, color 0.3s, transform 0.2s;">
+   Register
+</a>
+            </div>
+        </div>
+    </div>
+    </div>
+   
+    <div class="container-fluid about-us" id="about-us">
+    <div class="row">
+        <div class="col-md-6 about-us-content" style= "font-size: 18px">
+            <h1>About Us</h1>
+            <p>Welcome to RevShop! We are dedicated to bringing you the best products at unbeatable prices. Our mission is to provide a seamless and enjoyable shopping experience for all our customers.</p>
+            <p>At RevShop, we carefully select our products to ensure quality and value. Whether you're looking for the latest tech gadgets, stylish apparel, or everyday essentials, we have something for everyone.</p>
+            <p>Our team is passionate about customer satisfaction. We strive to offer exceptional service and support, making sure your needs are met at every step of your shopping journey.</p>
+            <p>Thank you for choosing RevShop. We look forward to serving you and hope you have a fantastic shopping experience!</p>
+        </div>
+        <div class="col-md-6">
+            <img src="https://st3.depositphotos.com/20363444/31956/i/450/depositphotos_319560848-stock-photo-excited-friends-having-fun-shopping.jpghttps://st3.depositphotos.com/20363444/31956/i/450/depositphotos_319560848-stock-photo-excited-friends-having-fun-shopping.jpg" alt="About Us Image" class="img-fluid" style="max-width: 100%; height: auto;">
+        </div>
+    </div>
+</div>
+
+    <div class="shop" id="shop">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTDF9SyFOfn2wCyuwpQ4BZNNmXT7CLltRLQZLRWvAsVyTT357UrtJDooZcfKMAuoyqFHoz7V2J0_U9chZoBVu2SsFZjX437ll4nmX3QX65jDqm_EHKv77-u&usqp=CAE" alt="Image 1" class="img-fluid" style="height: 300px">
+                <h4>EYEBOGLER Men Checked Loose Fit Shirt</h4>
+                <h3>550.00</h3>
+                <p>Loose Fit<br>
+                   Package contains: 1 shirt<br>
+                   Machine wash<br>
+                   Cotton blend<br>
+                   Product Code: 467267695005
+                </p>
+                <button class="btn btn-primary">Buy Now</button> <!-- Add Buy Now button -->
+            </div>
+            
+            <div class="col-md-4 text-center">
+                <img src="data:image/jpeg;base64,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" alt="Image 2" class="img-fluid" style="height: 300px">
+                <h4>Galaxy Buds3 Pro</h4>
+                <h3>1700.00</h3>
+                <p>Blast through heavy workloads and multitask seamlessly with the supercharged Intel Core Ultra processor, equipped with an advanced NPU for next-level AI performance. </p>
+                <button class="btn btn-primary">Buy Now</button> <!-- Add Buy Now button -->
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRLUBu62zmE75kDltWA3D-O0j3E9h8evf17NgLf9si-R-HTVS0ZyHe09cBvGI9J9_dqe6MvhJEg-46TjEab9UaUxWFYouRlbRlWCAyeeJ-AH5PfzXPVK2DRRw&usqp=CAE" alt="Image 3" class="img-fluid" style="height: 300px">
+                <h4>Clogs Flip Flops</h4>
+                <h3>1350.00</h3>
+                <p>Coupon Discount: 50% off (Your total saving: Rs. 1034)
+                    Applicable on: Orders above Rs. 198</p>
+                    <button class="btn btn-primary">Buy Now</button> <!-- Add Buy Now button -->
+            </div>
+        </div>
+        <!-- 
+<div class="col-md-4 text-center">
+    <img src="https://carltonlondon.co.in/cdn/shop/files/clsetcr0046c.jpg?v=1703075135&width=1100" alt="Image 4" class="img-fluid" style="height: 300px">
+    <h2>Pen – Carlton London</h2>
+    <h4>2500</h4>
+    <p>Product Code: CLSETGM0047
+        MRP (inclusive of all taxes)
+        Carlton London Set Of 2 Gun Metal Grey Twist And Roller Metal Pens</p>
+    <button class="btn btn-primary">Buy Now</button>  
+</div>
+-->
+</div>
+
+    </div>
+    
+        <div class="contact-us container text-center" id="contact">
+    <div class="contact_header">
+        <h1>Contact Us</h1>
+    </div>
+    <form action="index.html">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="name">USERNAME :</label>
+                    <input type="text" class="form-control" id="name" name="user" minlength="5" required>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="email">EMAIL :</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="phone">PHONE NUMBER :</label>
+                    <input type="number" class="form-control" id="phone" name="phone" required>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="queries">Comments, Questions:</label>
+                    <textarea name="comments" id="queries" class="form-control" rows="3" required></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <button type="submit" class="btn btn-info">SUBMIT</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+    
+    <footer>
+        <!-- Footer Start-->
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Important Link</h4>
+                                <ul>
+                                    <li><a href="#about-us">About Us</a></li>
+                                    <li><a href="#contact">Contact Us</a></li>
+                                    <li><a href="#">Events</a></li>
+                                    <li><a href="#">Explore Revature</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Address Info</h4>
+                                <ul>
+                                    <li>
+                                        <p>Address : Workafella High Street, Teynampet 12th floor, New, 431, Anna Salai, Chennai, Tamil Nadu 600018</p>
+                                    </li>
+                                    <li><a href="#">Phone : 99999 99999</a></li>
+                                    <li><a href="#">Email : support@revature.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Contact Link</h4>
+                                <div class="row">
+                                    <ul class="footer-social">
+                                        <li><a href="https://www.facebook.com/stepcone2023" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="https://www.instagram.com/stepcone_2023_official/" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="https://twitter.com/Stepcone_2023" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                        <li><a href="https://www.linkedin.com/company/stepcone-2023/" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End-->
+        <div class="footer-bottom-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>&copy; 2024 All rights reserved | This template is made by Revshop Team</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Up -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Back to Top functionality
+        var backToTopBtn = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 100) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        window.addEventListener('scroll', function () {
+            var navbar = document.querySelector('.nav');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+   
+        function myMenuFunction() {
+         var i = document.getElementById("navMenu");
+     
+         if(i.className === "nav-menu") {
+             i.className += " responsive";
+         } else {
+             i.className = "nav-menu";
+         }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('.nav-menu .link');
+            var currentUrl = window.location.pathname;
+
+            links.forEach(function(link) {
+                if (link.getAttribute('href') === currentUrl) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+      
+     </script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

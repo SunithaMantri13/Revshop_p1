@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+     body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f8f9fa;
+	overflow-x: hidden;
+}
+
+header {
+	background-color: #007bff;
+	color: white;
+	padding: 20px;
+	text-align: center;
+}
+
+nav {
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+}
+
+nav a {
+	margin: 0 15px;
+	color: black;
+	text-decoration: none;
+}
+
+.btn-container {
+	margin-left: 100px;
+}
+
+.btn {
+	background-color: #28a745;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.btn:hover {
+	background-color: #218838;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.image-section {
+	position: relative;
+	text-align: left;
+	overflow: hidden; 
+	height: 100%;
+	margin-bottom: 20px;
+}
+
+.image-section img {
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+	border-radius: 8px;
+}
+
+.text {
+	position: absolute;
+	top: 30%;
+	left: 15%;
+	color: white;
+	max-width: 50%;
+	transform: translateY(-50%);
+	transition: transform 0.5s ease;
+}
+
+.carousel-container {
+	display: flex;
+	justify-content: center;
+	margin: 20px 0;
+}
+
+.carousel {
+	width: 80%;
+	overflow: hidden;
+	position: relative;
+}
+
+.carousel img {
+	width: 100%;
+	border-radius: 8px;
+}
+
+.seller-info-additional {
+	text-align: center;
+	padding: 20px;
+}
+
+.boxes {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin: 40px 20px;
+	font-size:15px;
+}
+
+.box {
+	background-color: #f8f9fa;
+	color: black; 
+	width: 27%;
+	margin-bottom: 20px;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+	min-height: 240px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.box:hover {
+	background-color: #e2e6ea;
+	transform: translateY(-10px);
+}
+
+footer {
+	text-align: center;
+	padding: 10px;
+	background-color: #007bff;
+	color: white;
+}
+
+.seller-info {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px;
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	width: 90%;
+	margin-left: 50px;
+}
+
+.seller-info-image {
+	width: 50%;
+	position: relative;
+	overflow: hidden;
+}
+
+.seller-info-image img {
+	width: 100%;
+	height: auto;
+	clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%); 
+}
+
+.seller-info-text {
+	width: 40%;
+	padding-left: 20px;
+	text-align: left;
+}
+    </style>
+</head>
+<body>
+    <div th:include="@{/sellerNav.html}"></div>
+
+  <div id="notifications"></div>
+	<div class="image-section">
+		<h1 style="text-align: center; color: black;">Seller's Platform</h1>
+		<img
+			src="https://img.freepik.com/premium-photo/young-handsome-bearded-persian-businessman-against-green-wall_251136-75124.jpg?uid=R166655958&ga=GA1.1.1868640094.1728026033&semt=ais_hybrid"
+			alt="Fashion Store Image">
+		<div class="text" style="transform: translateY(-100%);color:black;">
+			<!-- Start above the view -->
+			<h2>Kickstart Your Selling Experience with RevShop</h2>
+<p style="width: 80%;">Become a part of our vibrant marketplace and expand your business like never before. With an array of tools, resources, and a dedicated community, we're here to empower your success. Begin your selling journey today and connect with millions of potential customers globally.</p>
+
+<h3>Why Choose RevShop?</h3>
+<ul style="width: 80%;">
+    <li><strong>Easy Setup:</strong> Create your seller account in just a few minutes and start listing your products.</li>
+    <li><strong>Marketing Support:</strong> Benefit from our promotional tools and marketing strategies to increase your visibility.</li>
+    <li><strong>Secure Transactions:</strong> Our platform ensures safe and reliable payment options for you and your customers.</li>
+    <li><strong>24/7 Support:</strong> Our dedicated support team is here to assist you with any questions or issues.</li>
+</ul>
+
+<h3>Join Us Today!</h3>
+<p style="width: 80%;">Ready to take the next step? Sign up now and be part of a community that values innovation, growth, and collaboration. Let's build your success story together!</p>
+
+		</div>
+	</div>
+	&nbsp;&nbsp;
+
+	<!-- Seller Info Section without a container -->
+	<div class="seller-info">
+		<div class="seller-info-image">
+			<img
+				src="https://img.freepik.com/premium-photo/cashback-get-rewarded-your-purchases_1267718-29446.jpg?w=1060"
+				alt="Cashback Offer">
+		</div>
+		<div class="seller-info-text">
+			<h2>Cashback: Get Rewarded for Your Purchases</h2>
+			<p>Experience amazing cashback offers every time you sell or buy
+				on RevShop! Our platform rewards your efforts with exciting deals
+				and promotions, making it easier for you to maximize your earnings.
+				Join today and start benefiting from our cashback program.</p>
+		</div>
+	</div>
+
+	<div class="image-section" style="margin-top: 30px;">
+		<img
+			src="https://img.freepik.com/premium-photo/stylish-woman-silhouette-holding-shopping-bags-against-dark-background-perfect-fashion-retail-themes_1275611-10243.jpg"
+			alt="Stylish Woman Shopping">
+		<div class="text" style="transform: translateY(-100%); margin-top: 80px;">
+    <h2>Why Partner with RevShop for Your E-commerce Needs?</h2>
+    <p>At RevShop, we equip sellers with cutting-edge tools to thrive in the digital marketplace. Experience unparalleled visibility, reach customers worldwide, and enjoy the freedom to manage your business from any location. Our platform is crafted specifically for sellers, ensuring a straightforward, dependable environment for elevating your brand.</p>
+</div>
+
+<div class="boxes">
+    <div class="box">
+        <h1>User-Friendly Interface</h1>
+        <p>RevShop offers an intuitive platform that makes it easy for sellers to navigate and manage their stores. Our streamlined processes and detailed insights empower you to optimize your operations effectively.</p>
+    </div>
+    <div class="box">
+        <h1>Comprehensive Support</h1>
+        <p>Our expert support team is here to help you at any hour of the day. Whether you have questions or need assistance, RevShop is committed to ensuring your path to success is smooth and supported.</p>
+    </div>
+    <div class="box">
+        <h1>Robust Security Measures</h1>
+        <p>Your safety is paramount at RevShop. We implement advanced encryption technologies and proactive fraud protection to safeguard your information and transactions, giving you peace of mind as you grow your business.</p>
+    </div>
+</div>
+
+
+	<div class="boxes">
+		<div class="box">
+			<h1>Product Inspection</h1>
+			<p>Every product is thoroughly checked before it is accepted on
+				our platform to ensure quality. Our dedicated team works tirelessly
+				to maintain the highest standards for our customers.</p>
+		</div>
+		<div class="box">
+			<h1>24 Hours Service</h1>
+			<p>We offer round-the-clock customer service to assist our users.
+				No matter when you need help, we are here for you!</p>
+		</div>
+		<div class="box">
+			<h1>Easy Returns</h1>
+			<p>Our easy return policy ensures you have a worry-free shopping
+				experience. If you're not satisfied with your purchase, returning it
+				is simple and straightforward.</p>
+		</div>
+	</div>
+
+	<footer>
+		<p>&copy; 2024 RevShop. All rights reserved.</p>
+	</footer>
+	
+	 <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const textSection = document.querySelector(".text");
+            // Slide the text down to its position
+            textSection.style.transform = "translateY(0)";
+        });
+    </script>
+</body>
+</html>

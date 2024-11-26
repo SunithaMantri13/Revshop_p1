@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyers Dashboard</title>
+      <link rel="stylesheet" th:href="@{/css/buyerDashboard.css}">
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar container */
+.navbar {
+    background-color: #b3b3b3; /* Light grey color */
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    font-size: 20px;
+}
+
+/* Navbar brand */
+.navbar-brand {
+    font-size: 34px;
+    font-weight: bold;
+    color: #333 !important;
+}
+
+/* Navbar links */
+.nav-link {
+    color: #333 !important;
+    font-size: 14px;
+}
+.nav-link:hover {
+    color: #007bff !important;
+}
+
+/* Menu items */
+.menu-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.menu-items li {
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Links inside the menu */
+.menu-items a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+
+/* Unordered List Dropdown */
+.dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Hidden by default */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 0;
+    list-style: none;
+    min-width: 150px;
+    top: 40px;
+    right: 0;
+    font-size: 14px;
+}
+
+.dropdown-content li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.dropdown-content li:last-child {
+    border-bottom: none;
+}
+.dropdown-content li a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content li a:hover {
+    background-color: #e0e0e0;
+}
+
+/* Clickable dropdown with display toggle */
+.menu-items li:hover .dropdown-content {
+    display: block;
+}
+
+/* Hamburger menu for mobile */
+.hamburger-lines {
+    display: none;
+    cursor: pointer;
+}
+.line {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 5px;
+    transition: 0.4s;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .hamburger-lines {
+        display: inline-block;
+    }
+    .menu-items {
+        display: none;
+        height:20px;
+        flex-direction: column;
+        width: 100%;
+        background-color: #b3b3b3;
+        padding: 5px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    .navbar-container input:checked ~ .menu-items {
+        display: flex;
+    }
+}
+   .home_txt {
+      color: black;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    /* Styling for 'WELCOME, BUYER' */
+    .collection {
+      color: black;
+    }
+
+    /* Styling for 'Explore Your Favorite...' in blue */
+    .home_txt h2 {
+      color: #0044ff;
+    }
+
+    /* Styling for 'Browse through...' paragraph in black */
+    .home_label p {
+      color: black;
+    }
+
+    /* Button styling */
+    .home_label button {
+      background-color: #0044ff;
+      color: white;
+      font-family: 'Times New Roman', Times, serif;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    /* Button hover text color change only */
+    .home_label button:hover {
+      color:black;
+      
+    }
+
+    /* Remove default link styling within the button */
+    .home_label button a {
+      color: inherit;
+      text-decoration: none;
+    }
+  
+
+.transparent-button {
+      /* Smooth transition for hover effects */
+}
+
+.transparent-button:hover {
+    background-color:white;
+     border: 2px solid blue;
+      background-color: transparent;  /* Make the background transparent */
+            /* Set the border to blue */
+    color: blue;                    /* Set text color to blue */
+    padding: 10px 20px;             /* Adjust padding for a better appearance */
+    cursor: pointer;                /* Change cursor to pointer */
+    font-size: 16px;               /* Adjust font size as needed */
+    text-decoration: none;          /* Remove underline from link */
+    transition: all 0.3s ease;  
+     /* Light blue background on hover */
+}
+    .home_label {
+    margin-top: 50px; /* Add margin-top to the home_label */
+    /* Other styles */
+    display: flex;
+}
+    
+ .collection{
+font-size:20px;}
+</style>
+<script>
+document.querySelectorAll('.menu-items li').forEach(item => {
+    item.addEventListener('click', () => {
+        const dropdown = item.querySelector('.dropdown-content');
+        if (dropdown) {
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    });
+});
+</script>
+<body>
+    <div th:include="@{/buyerNav.html}"></div>
+
+   <!--  <nav class="navbar">
+    <div class="navbar-container">
+        <input type="checkbox" id="checkbox" style="display: none;">
+        <label for="checkbox" class="hamburger-lines">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </label>
+        
+        <div class="logo">RevShop</div>
+        
+        <ul class="menu-items">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#sellers">Shop</a></li>
+            <li><a th:href="@{/api/v1/wishlist}">Favorites</a></li>
+            <li><a th:href="@{/api/v1/cart}">Cart</a></li>
+            <li><a th:href="@{/api/v1/orders/history}">Track Orders</a></li>
+            
+            Profile Dropdown
+            <li class="dropdown">
+                <button class="dropdown-toggle">Profile</button>
+                <ul class="dropdown-content">
+                    <li><a th:href="@{/api/v1/profile}"><i class="fas fa-id-badge"></i> My Profile</a></li>
+                    <li><a th:href="@{/api/v1/profile/edit}"><i class="fas fa-edit"></i> Edit Profile</a></li>
+                    <li><a th:href="@{/api/v1/profile/logout}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav> -->
+    
+    <section id="home">
+        <div class="home_page">
+            <div class="home_img">
+                <!-- <img src="https://img.freepik.com/free-photo/pretty-young-stylish-sexy-woman-pink-luxury-dress-summer-fashion-trend-chic-style-sunglasses_285396-641.jpg" alt="img"> -->
+                 <img src="/images/buyer1.png">
+           <div class="home_txt">
+<p class="collection" style="font-size: 25px;">WELCOME, BUYER</p>
+    <h2 style="font-size: 30px;">Explore Your Favorite<br>Products of 2024</h2>
+    <div style="color: black; font-size: 18px;">
+  <p style="color: black;">Browse through our exclusive products tailored just for you<br>Enjoy seamless shopping with every purchase.</p>
+</div>
+    <div class="home_label">
+      <button class="transparent-button"><a th:href="@{/api/v1/products}">BROWSE PRODUCTS</a></button>
+
+
+
+    </div>
+  </div>
+                <div class="home_social_icons">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                    <a href="#"><i class='bx bxl-pinterest'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <section id="collection">
+        <div class="collections container">
+            <div class="content">
+                <img src="https://i.postimg.cc/Xqmwr12c/clothing.webp" alt="img" />
+                <div class="img-content">
+                    <p>Clothing Collections</p>
+                    <button><a href="#sellers">SHOP NOW</a></button>
+                </div>
+            </div>
+            <div class="content2">
+                <img src="https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/05856ac7-0129-4395-bd6e-2fe2669025fb/custom-nike-dunk-low-by-you-su24.png" alt="img" />
+                <div class="img-content2">
+                    <p>Shoes Spring</p>
+                    <button><a href="#sellers">SHOP NOW</a></button>
+                </div>
+            </div>
+            <div class="content3">
+                <img src="https://nextluxury.com/wp-content/uploads/Top-15-Fashion-Accessories-For-Men-1.jpg" alt="img" />
+                <div class="img-content3">
+                    <p>Accessories</p>
+                    <button><a href="#sellers">SHOP NOW</a></button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="sellers">
+        <div class="seller container">
+            <h2>Top Sales</h2>
+            <div class="best-seller">
+                <div class="best-p1">
+                    <img src="https://4.imimg.com/data4/RU/VC/MY-11853389/men-s-jackets-500x500.jpg" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Blonde Jacket for Men</p>
+                        </div>
+                        <div class="price">
+                            &dollar;37.24
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://assets.ajio.com/medias/sys_master/root/20230427/JPVF/64497d9b42f9e729d751f23a/-473Wx593H-466098941-multi-MODEL.jpg" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Regular T-shirts</p>
+                        </div>
+                        <div class="price">
+                            &dollar;17.24
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://www.firstcopycloths.com/wp-content/uploads/2024/02/Untitled-design-18.png" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Black T-Shirt for Unisex</p>
+                        </div>
+                        <div class="price">
+                            &dollar;27.24
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR77AT2WUFGXlsLVt-LGJV4bxttirgQpmxgzw&s" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Black Regular Formal Shirt</p>
+                        </div>
+                        <div class="price">
+                            &dollar;43.67
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="seller container">
+            <h2>New Arrivals</h2>
+            <div class="best-seller">
+                <div class="best-p1">
+                    <img src="https://5.imimg.com/data5/SELLER/Default/2022/3/TM/KC/JP/958301/lacoste-t-shirt.jpg" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>T-Shirts Combo for Unisex</p>
+                        </div>
+                        <div class="price">
+                            &dollar;10.23
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://www.wildhorn.in/cdn/shop/products/915NPMLKRDL._SL1500_800x.jpg?v=1703661630" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Blonde colour Bag</p>
+                        </div>
+                        <div class="price">
+                            &dollar;09.28
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://images-cdn.ubuy.co.in/65bb07fa10344842ed665a3e-men-lacoste-polo-shirt-marl-knit-soft.jpg" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Black Half Sleeve T-shirt for Men</p>
+                        </div>
+                        <div class="price">
+                            &dollar;06.24
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://rukminim2.flixcart.com/image/850/1000/xif0q/shoe/x/s/a/7-ig0329-7-adidas-wonblu-dshgry-lucpnk-original-imagrh2dkkxfpuwy.jpeg?q=90&crop=false" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Stylish Shoes</p>
+                        </div>
+                        <div class="price">
+                            &dollar;43.67
+                            <div class="colors">
+                                <i class='bx bxs-circle grey'></i>
+                                <i class='bx bxs-circle red'></i>
+                                <i class='bx bxs-circle blue'></i>
+                            </div>
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="seller container">
+            <h2>BestSellers</h2>
+            <div class="best-seller">
+                <div class="best-p1">
+                    <img src="https://m.media-amazon.com/images/I/51rmtouuoUL.AC_UY1100.jpg" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Brown Hoodie</p>
+                        </div>
+                        <div class="price">
+                            &dollar;37.24
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://styleunion.in/cdn/shop/products/LFJ00098STONE_1.jpg?v=1702043202" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Blue Jeans for women</p>
+                        </div>
+                        <div class="price">
+                            &dollar;10.23
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://assets.ajio.com/medias/sys_master/root/20230526/NpbN/6470a8c3d55b7d0c63169af5/-473Wx593H-469477482-mustard-MODEL.jpg" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Yellow Half Sleeve T-Shirt </p>
+                        </div>
+                        <div class="price">
+                            &dollar;15.24
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="best-p1">
+                    <img src="https://levi.in/cdn/shop/files/182981358_01_Front_3204f5ec-7e2a-40b6-91de-79ef3c7e59f8.jpg?v=1698322122" alt="img" class="rounded-image">
+                    <div class="best-p1-txt">
+                        <div class="name-of-p">
+                            <p>Jeans Pant for Men</p>
+                        </div>
+                        <div class="price">
+                            &dollar;09.28
+                        </div>
+                        <div class="buy-now">
+                            <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container container">
+            <div class="content_1">
+                <h1>RevShop</h1>
+                <p>The customer is at the heart of our<br>unique business model, which includes<br>design.</p>
+                <img src="https://i.postimg.cc/Nj9dgJ98/cards.png" alt="cards">
+            </div>
+            <div class="content_2">
+                <h4>SHOPPING</h4>
+                <a href="#sellers">Clothing Store</a>
+                <a href="#sellers">Trending Shoes</a>
+                <a href="#sellers">Accessories</a>
+                <a href="#sellers">Sale</a>
+            </div>
+            <div class="content_3">
+                <h4>SHOPPING</h4>
+                <a href="./contact.html">Contact Us</a>
+                <a href="https://payment-method-sb.netlify.app/" target="_blank">Payment Method</a>
+                <a href="https://delivery-status-sb.netlify.app/" target="_blank">Delivery</a>
+                <a href="https://codepen.io/sandeshbodake/full/Jexxrv" target="_blank">Return and Exchange</a>
+            </div>
+            <div class="content_4">
+                <h4>NEWLETTER</h4>
+                <p>Be the first to know about new<br>arrivals, look books, sales & promos!</p>
+                <div class="f-mail">
+                    <input type="email" placeholder="Your Email">
+                    <i class='bx bx-envelope'></i>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-items a[href="#sellers"]').addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetSection = document.querySelector(this.getAttribute('href'));
+            targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+
+        document.querySelector('.menu-items a[href="#home"]').addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetSection = document.querySelector(this.getAttribute('href'));
+            targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+
+        document.querySelector('.home_txt a[href="#sellers"]').addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetSection = document.querySelector(this.getAttribute('href'));
+            targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+ 
+        // document.getElementById("collection")
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .profile {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-left {
+            flex: 1;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .profile-icon {
+            font-size: 100px;
+            color: #4e73df;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-info {
+            background: linear-gradient(135deg, #4e73df 0%, #1c1c1c 100%);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .profile-info h3 {
+            font-size: 24px;
+        }
+
+        .profile-details {
+            flex: 2;
+            padding: 30px;
+        }
+
+        .profile-details h2 {
+            font-size: 28px;
+            color: #343a40;
+            margin-bottom: 15px;
+        }
+
+        .profile-details p {
+            font-size: 16px;
+            color: #495057;
+            margin: 10px 0;
+        }
+
+        .profile-details p i {
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .profile-actions .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-actions .btn.edit-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .profile-actions .btn.edit-btn:hover {
+            background-color: #218838;
+        }
+
+        .profile-actions .btn.logout-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .profile-actions .btn.logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+        }
+
+        .popup button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:include="@{/sellerNav.html}"></div>
+    <div class="profile">
+        <div class="profile-left">
+            <i class="fas fa-user-circle profile-icon"></i>
+            <div class="profile-info">
+                <h3 th:text="${user.userName}">User Name</h3>
+            </div>
+        </div>
+
+        <div class="profile-details">
+            <h2>Profile Overview</h2>
+            <p><i class="fas fa-envelope"></i> <span th:text="${user.userEmail}">user@example.com</span></p>
+            <p><i class="fas fa-phone"></i> <span th:text="${user.userMobileNumber}">+1234567890</span></p>
+            <p><i class="fas fa-map-marker-alt"></i> <span th:text="${user.userAddress}">123 Street, City</span></p>
+            <p><i class="fas fa-user-tag"></i> <span th:text="${user.userRole}">User Role</span></p>
+
+            <div class="profile-actions">
+                <a th:href="@{/api/v1/profile/edit}" class="btn edit-btn">Edit Profile</a>
+                <a href="/api/v1/profile/logout" class="btn logout-btn" onclick="showLogoutPopup(event)"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+    <div class="popup" id="logoutPopup">
+        <h2>Are you sure you want to logout?</h2>
+        <button onclick="confirmLogout()">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+
+    <script>
+        function showLogoutPopup(event) {
+            event.preventDefault(); // Prevent default link behavior
+            document.getElementById("logoutPopup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("logoutPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        function confirmLogout() {
+            window.location.href = "/api/v1/profile/logout"; // Redirect to logout URL
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

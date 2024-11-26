@@ -1,0 +1,84 @@
+version: "3"
+
+services:
+   service-discovery:
+      image: discovery:latest
+      container_name: service-discovery
+      build: 
+         context: ../eclipse-workspace2/service-discovery
+         dockerfile: Dockerfile
+      ports: 
+         - "8761:8761"
+
+   api-gateway:
+      image: gateway:latest
+      container_name: api-gateway
+      build: 
+         context: ../eclipse-workspace2/api-gateway
+         dockerfile: Dockerfile
+      ports: 
+         - "8002:8081" 
+      depends_on:
+         - service-discovery
+      environment:
+         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery:8761/eureka
+
+   spring:
+      image: spring:latest
+      container_name: spring
+      build:
+         context: ../eclipse-workspace2/spring
+         dockerfile: Dockerfile
+      depends_on: 
+          - service-discovery
+          - mysql
+      ports:
+          - "8007:8100"
+      environment:
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/spring
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: Aryan@123
+          EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery:8761/eureka
+
+   revshop: 
+      image: revshop:latest
+      container_name: revshop
+      build: 
+         context: .
+         dockerfile: Dockerfile
+      depends_on: 
+          - service-discovery
+          - mysql
+      ports: 
+          - "8003:8087"
+      environment:
+         SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/revshop_007
+         SPRING_DATASOURCE_USERNAME: root
+         SPRING_DATASOURCE_PASSWORD: Aryan@123
+         SPRING_ZIPKIN_BASEURL: http://localhost:9411
+         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery:8761/eureka
+
+   mysql: 
+     image: mysql:latest
+     container_name: mysql
+     ports:
+        - "3304:3306"
+     volumes:
+        - mysql_vol:/var/lib/mysql
+     environment: 
+        MYSQL_ROOT_PASSWORD: Aryan@123
+        MYSQL_DATABASE: revshop_007
+        MYSQL_ROOT_USERNAME: root
+
+   zipkin:
+      image: openzipkin/zipkin:latest
+      container_name: zipkin
+      ports:
+         - "9411:9411"
+
+networks:
+   spring_net:
+      driver: bridge
+
+volumes:
+   mysql_vol:

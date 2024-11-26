@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shopping Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .cart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cart-header h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .cart-icon {
+            font-size: 2.5rem;
+            color: #007bff;
+        }
+
+        .cart-table .table {
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .btn-outline-success, .btn-checkout, .btn-continue {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .remove-btn {
+            color: #dc3545;
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            color: #c82333;
+            transform: scale(1.05);
+        }
+
+        .btn-checkout {
+            background-color: #007bff;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .btn-checkout:hover {
+            background-color: #0056b3;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .btn-continue {
+            background-color: #6c757d;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .btn-continue:hover {
+            background-color: #5a6268;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .empty-cart h2 {
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .cart-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn-checkout, .btn-continue {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cart-icon {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div th:include="@{/buyerNav.html}"></div>
+    <div class="container cart-container">
+        <div class="cart-header">
+            <h1>Your Shopping Cart</h1>
+            <i class="fas fa-shopping-cart cart-icon"></i>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(cartItems)}">
+            <div class="cart-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cart-item" th:each="item : ${cartItems}">
+                            <td data-label="Product" class="product-name" th:text="${item.product.name}"></td>
+                            <td data-label="Price" class="price">₹<span th:text="${#numbers.formatDecimal(item.product.price, 1, 2)}" th:attr="data-price=${item.product.price}"></span></td>
+                            <td>
+                                <button onclick="updateQuantity(this, false)" class="btn btn-sm btn-outline-success"
+                                        th:attr="data-product-id=${item.product.productId},data-current-quantity=${item.quantity}">-</button>
+                                <span data-label="Quantity" class="quantity" th:text="${item.quantity}"></span>
+                                <button onclick="updateQuantity(this, true)" class="btn btn-sm btn-outline-success"
+                                        th:attr="data-product-id=${item.product.productId},data-current-quantity=${item.quantity}">+</button>
+                            </td>
+                            <td data-label="Total" class="total">₹<span th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 1, 2)}"></span></td>
+                            <td>
+                                <form th:action="@{'/api/v1/cart/delete?productId=' + ${item.product.productId}}" method="post">
+<button type="submit" class="btn remove-btn" style="border: 2px solid blue;">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(cartItems)}" class="empty-cart">
+            <i class="fas fa-shopping-basket"></i>
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added any items to your cart yet.</p>
+        </div>
+
+        <div class="cart-actions">
+            <a th:href="@{/api/v1/products}" class="btn btn-continue">
+                <i class="fas fa-arrow-left"></i>
+                Continue Shopping
+            </a>
+            <a th:href="@{/api/v1/orders}" class="btn btn-checkout">
+                Proceed to Checkout
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function updateQuantity(button, isIncrement) {
+            const row = button.closest('tr');
+            const productId = button.getAttribute('data-product-id');
+            const quantitySpan = row.querySelector('.quantity');
+            const currentQuantity = parseInt(button.getAttribute('data-current-quantity'));
+            const priceElement = row.querySelector('.price span');
+            const totalElement = row.querySelector('.total span');
+            const price = parseFloat(priceElement.getAttribute('data-price'));
+
+            const newQuantity = isIncrement ? currentQuantity + 1 : Math.max(1, currentQuantity - 1);
+
+            quantitySpan.textContent = newQuantity;
+            totalElement.textContent = (price * newQuantity).toFixed(2);
+
+            row.querySelectorAll('button[data-current-quantity]').forEach(btn => {
+                btn.setAttribute('data-current-quantity', newQuantity);
+            });
+
+            try {
+                const response = await fetch(`/api/v1/cart?productId=${productId}&quantity=${newQuantity}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update quantity');
+                }
+            } catch (error) {
+                quantitySpan.textContent = currentQuantity;
+                totalElement.textContent = (price * currentQuantity).toFixed(2);
+                console.error('Error updating quantity:', error);
+            }
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

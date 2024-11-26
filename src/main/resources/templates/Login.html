@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevShop User Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/Login.css}">
+    <style>
+        
+    </style>
+    <script>
+        const token ='SoE7+u/5gnnvN4GWu+N+gevErJY75l3by5Y21bqsM5DsJ1WObramptITv0vhr2lVvTWLJ+F9Ci6d05r8b773jw=='; // This will be replaced with the actual token value
+        // Store the token in local storage (optional)
+        sessionStorage.setItem("jwtToken", token);
+        function fetchData() {
+            const url = '/api/v1/buyer-dashboard'; 
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); 
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+        }
+        window.onload = function() {
+            fetchData();
+        };
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('form').on('submit', function(e) {       	 
+                const email = $('#email').val();
+                const password = $('#password').val();
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+                let isValid = true;
+                if (!emailPattern.test(email)) {
+                    $('#emailError').show();
+                    isValid = false;
+                } else {
+                    $('#emailError').hide();
+                }
+                if (password.length < 8) {
+                    $('#passwordError').text("Password must be at least 8 characters").show();
+                    isValid = false;
+                } else {
+                    $('#passwordError').hide();
+                }
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+            $("body").fadeIn(1000);
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10 col-12">
+            <div class="login-container">
+                <h2>RevShop Login</h2>
+                <form action="#" method="POST" th:action="@{/api/v1/login}" th:object="${login}">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" th:field="*{userEmail}" placeholder="Enter your email">
+                        <div id="emailError" class="error text-danger" style="display:none;">Please enter a valid email address.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" th:field="*{userPassword}" placeholder="Enter your password">
+                        <div id="passwordError" class="error text-danger" style="display:none;"></div>
+                    </div>
+                    <div class="btn-container">
+                        <button type="submit" class="btn login-button">Login</button>
+                    </div>
+                </form>
+                <a href="#" th:href="@{/api/v1/register}" class="login-link">Don't have an account? Register here</a>
+                                <a href="#" th:href="@{/api/v1/forgot-password}" class="login-link">Forgot Password? Click here</a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: com.project.revshop.controller.UserControllerTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 25.489 s <<< FAILURE! - in com.project.revshop.controller.UserControllerTest
+com.project.revshop.controller.UserControllerTest.testProcessRegistrationSuccess  Time elapsed: 0.098 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(Object)" because "this.objectMapper" is null
+	at com.project.revshop.controller.UserControllerTest.testProcessRegistrationSuccess(UserControllerTest.java:54)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
